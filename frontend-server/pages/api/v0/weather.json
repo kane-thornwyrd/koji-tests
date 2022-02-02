@@ -1,0 +1,37 @@
+{
+  "coord": { "lon": 2.361, "lat": 47.6353 },
+  "weather": [
+    {
+      "id": 804,
+      "main": "Clouds",
+      "description": "overcast clouds",
+      "icon": "04n"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 281.85,
+    "feels_like": 279.49,
+    "temp_min": 281.03,
+    "temp_max": 282.32,
+    "pressure": 1026,
+    "humidity": 96,
+    "sea_level": 1026,
+    "grnd_level": 1008
+  },
+  "visibility": 10000,
+  "wind": { "speed": 4.13, "deg": 266, "gust": 9.36 },
+  "clouds": { "all": 100 },
+  "dt": 1643765332,
+  "sys": {
+    "type": 2,
+    "id": 2001369,
+    "country": "FR",
+    "sunrise": 1643786174,
+    "sunset": 1643820730
+  },
+  "timezone": 3600,
+  "id": 3027898,
+  "name": "Cerdon",
+  "cod": 200
+}
