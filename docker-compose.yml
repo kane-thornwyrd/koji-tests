@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  webapp:
+    image: node:lts-alpine
+    working_dir: /home/node/app
+    restart: unless-stopped
+    user: "node"
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8888:3000
+    volumes:
+      - ./frontend-server:/home/node/app
+    expose:
+      - "8888"
+    command: "npm start"
+  apiserver:
+    image: node:lts-alpine
+    working_dir: /home/node/app
+    restart: unless-stopped
+    user: "node"
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3333:3000
+    volumes:
+      - ./api-server:/home/node/app
+    expose:
+      - "3333"
+    command: "npm start"
