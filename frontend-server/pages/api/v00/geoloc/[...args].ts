@@ -1,20 +1,21 @@
-import _, { sortBy } from "lodash";
+import _, { sortBy, filter } from "lodash";
 
 import france from "../france.json";
 
 function parseString<Type>(v: Type): string { return v + ''; }
 
-const communes_by_name = sortBy(france, "Nom_commune")
-
-const communes_by_postal_code = sortBy(france, "Code_postal")
+// Filtering by "coordonnees_gps" to avoid having to request google geocoding API…
+const communes_by_name = filter(sortBy(france, "Nom_commune"), "coordonnees_gps")
+const communes_by_postal_code = filter(sortBy(france, "Code_postal"), "coordonnees_gps")
 
 const uniqCommune = commune => commune["Nom_commune"] + '' + commune["Code_postal"] + '' + commune["Code_commune_INSEE"]
 
 const methods = {
   byName: (value: string) =>
     communes_by_name
-      .filter(v => [...v["Nom_commune"]
-        .matchAll(RegExp(value, 'ig'))].length > 0)
+      .filter(v => [
+        ...v["Nom_commune"].matchAll(RegExp(value, 'ig'))
+      ].length > 0)
   ,
   byPostalCode: (value: string) =>
     communes_by_postal_code

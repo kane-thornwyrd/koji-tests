@@ -18,7 +18,6 @@ const geocodingBuilder: MiddlewareBuilder = ({ version, name }: ServerConfig) =>
     //     console.error(error);
     //   })
     res.status(200).json(req.params)
-
   }
 
 export const Geocoding = {
