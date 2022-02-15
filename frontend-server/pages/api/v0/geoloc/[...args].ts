@@ -30,12 +30,12 @@ export default (req, res) => {
 
   if (!methods[method]) return res.status(400).json(Object.keys(methods))
 
-  setTimeout(() => {
-    res.status(200).json(methods[method](value).map(entry => { return {
+  res.status(200).json(methods[method](value).map(entry => {
+    return {
       ...entry,
-      departement: parseString(entry["Code_postal"]).padStart(5, '0').substring(0,2),
-    }}))
-  }, 1000)
+      departement: parseString(entry["Code_postal"]).padStart(5, '0').substring(0, 2),
+    }
+  }))
 };
 
 export const config = {

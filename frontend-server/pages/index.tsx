@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import _, { throttle, sortBy } from "lodash";
+import React, { useState, useCallback } from "react";
+import _, { debounce, sortBy } from "lodash";
 import axios from 'axios'
 
 import { styled } from '@mui/material/styles';
@@ -22,9 +22,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Divider from '@mui/material/Divider';
 
+
+export type Commune = {
+  departement: string,
+}
+
 function parseString<Type>(v: Type): string { return v + ''; }
-
-
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number },
@@ -89,13 +92,17 @@ function Home(props) {
 
   dataLoadingPromise.then(setOptions)
 
-  const onChange = (_, value) => setSelectedLocation(value)
+  const onChange = (_, value) => {
+    setSelectedLocation(value)
 
-  const handleSearch = (_e, value, reason) => {
+  }
+
+  const handleSearch = useCallback(debounce((_e, value, reason) => {
     switch (reason) {
 
       case "reset":
         setLoading(false);
+        setSelectedLocation({});
       case "blur":
         return;
 
@@ -112,20 +119,19 @@ function Home(props) {
           setOptions([])
           return;
         }
-        throttle(() => {
-          setSearch(value);
-          setOptions([]);
-          setDataLoadingPromise(axios.get(parseInt(value) !== NaN && parseInt(value) > 0 ?
-            `/api/v0/geoloc/byPostalCode/${parseInt(value)}` :
-            `/api/v0/geoloc/byName/${value}`).then((res) => res.data))
-        }, 1000, { leading: false })();
+
+        setDataLoadingPromise(axios.get(parseInt(value) !== NaN && parseInt(value) > 0 ?
+          `/api/v0/geoloc/byPostalCode/${parseInt(value)}` :
+          `/api/v0/geoloc/byName/${value}`).then((res) => res.data))
+        setSearch(value);
+        setOptions([]);
         return;
 
 
       default:
         break;
     }
-  }
+  }, 1250), [])
 
 
   return (
@@ -144,7 +150,7 @@ function Home(props) {
         isOptionEqualToValue={(o, v) => loading || (communeToOptions(o) === communeToOptions(v))}
         onInputChange={handleSearch}
         onChange={onChange}
-        groupBy={v => v.departement}
+        groupBy={(v:Commune) => v.departement}
         getOptionLabel={v => communeToOptions(v)}
         renderInput={(params) => (
           <StyledTextField {...params}
@@ -186,11 +192,11 @@ function Home(props) {
             <Typography variant="body2">
               Nuageux avec risque de boulettes de viande
             </Typography>
-            <Divider component="div" style={{margin:"1em 0"}}/>
+            <Divider component="div" style={{ margin: "1em 0" }} />
             <Typography variant="h5" component="div">
-            Humidité <CircularProgressWithLabel thickness={7} value={96} size="50px"/>
+              Humidité <CircularProgressWithLabel thickness={7} value={96} size="50px" />
             </Typography>
-            <Divider component="div" style={{margin:"1em 0"}}/>
+            <Divider component="div" style={{ margin: "1em 0" }} />
             <TableContainer>
               <Table aria-label="temperatures">
                 <TableHead>

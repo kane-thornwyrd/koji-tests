@@ -14,11 +14,12 @@
   ],
   "scripts": {
     "lint": "eslint lib",
-    "start": "node --inspect=5858 -r dotenv/config -r ts-node/register ./src/index.ts",
+    "start": "node -r dotenv/config -r ts-node/register ./src/index.ts",
     "start:watch": "nodemon",
     "prod": "node -v && node lib/server.js"
   },
   "dependencies": {
+    "axios": "0.26.0",
     "body-parser": "1.19.0",
     "compression": "1.7.4",
     "dotenv": "16.0.0",

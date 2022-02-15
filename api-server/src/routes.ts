@@ -1,4 +1,4 @@
-import Router from "express"
+import Router, { IRouter } from "express"
 import { ServerConfig } from "./config";
 import { MiddlewareConfig, MiddlewaresConfigs } from "./middlewares"
 
@@ -14,7 +14,6 @@ export default function createRoutes(config:ServerConfig, middlewares: Middlewar
         router.get(route, build(config))
       } else {
         methods.forEach((method: string) => {
-          if ( (router as Object).hasOwnProperty(method) )
           // Sorry for all this shhhh, it's the kind of use case that make me love vanilla JS sometimes…
           (router as unknown as {[key: string]:Function})[method].call(router, route, build(config))
         })

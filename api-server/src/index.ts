@@ -13,10 +13,12 @@ const {
   apiVersion,
 } = config
 
+console.log(`${host}:${port}`);
+
 const routes = createRoutes(config, middlewaresConfigs)
 
 express()
-  .use(bodyParser.urlencoded({ extended: false, limit: "6mb" }))
+  .use(bodyParser.urlencoded({ extended: false, limit: "12mb" }))
   .use(bodyParser.json({ limit: "12mb" }))
   .use(compression())
   .use(helmet())

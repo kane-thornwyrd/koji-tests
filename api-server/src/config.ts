@@ -16,7 +16,7 @@ const config: ServerConfig = {
   apiVersion: `v${pkg.version.split(".")[0]}${pkg.version.split(".")[1]}`,
   version: pkg.version,
   host: env.HOSTNAME ?? "localhost",
-  port: env.PORT ?? 8080,
+  port: 8888,
   isProduction: env.NODE_ENV === "production"
 }
 
